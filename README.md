@@ -2,7 +2,9 @@ This program implements an unbeatable Tic-Tac-Toe AI
 in Ruby
 
 _requires Ruby 1.9_
+
 To play the game run `rake play`
+
 To run the included unit tests run `rake test`
 
 The implementation of the AI is explained in the comments
