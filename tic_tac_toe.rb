@@ -1,63 +1,81 @@
 require "./board"
 require "./player"
-require "./move"
+require "./aiplayer"
 class TicTacToe
-    turn = -1
-    play = "y"
-    # Begin game loop, will play games as long as the user wants to
-    while play == "y"
-        # Loop until the user enters a valid choice of playing
-        # first or second
-        until (1..2).include? turn
-            puts "Would you like to go first or second?(1 or 2)"
-            turn = gets.chomp.to_i
-        end
+    def initialize
+        play = "y"
+        # Begin game loop, will play games as long as the user wants to
+        while play == "y"
+            first = get_first
 
-        # Initialize the board and players
-        b = Board.new
-        players = Array.new
-        if turn == 1
-            # user chose to play first
-            players.push(Player.new(1))
-            players.push(AIPlayer.new(2))
-        else
-            # user chose to play second
-            players.push(AIPlayer.new(1))
-            players.push(Player.new(2))
-        end
+            b, players = set_up_game(first)
 
-        # Begin loop for a single game
-        # Continues until there is a winner or a tie 
-        while b.winner == 0 && !b.tie?
-            if players[b.current_player-1].is_a? AIPlayer
-                puts "AIPlayer's turn"
-            end
-            puts b.display
-            # If the player is a human, prompts for response
-            # If the player is AI, selects best move
-            m = players[b.current_player-1].get_move(b)
-            b.make_move(m)
-            puts "\n\n"
-        end #end single game loop
+            b = play_a_single_game(b, players)
 
-        # Determine and display the game results
-        champ = b.winner
-        puts b.display
-        if turn == champ
-            puts "You won!!!"
-        elsif champ == 0
-            puts "It was a tie."
-        else
-            puts "You lost!"
-        end    
-        
-        # Let player choose if they want to play another game
-        play = "d"
-        turn = -1
-        until ["y", "n"].include? play
-            puts "Would you like to play again?(y or n)"
-            play = gets.chomp.downcase[0]
+            display_game_results(b, players)
+            
+            # Let player choose if they want to play another game
+            play = play_again
         end
+        puts "Goodbye!"
     end
-    puts "Goodbye!"
+end
+def get_first
+    first = nil
+    until ["y", "n"].include? first
+        puts "Would you like to go first (y/n)?"
+        first = gets.chomp.downcase[0]
+    end
+    return first
+end
+def set_up_game(first)
+    # Initialize the board and players
+    b = Board.new
+    players = Array.new
+    if first == "y"
+        players.push(Player.new(:X))
+        players.push(AIPlayer.new(:O))
+    else
+        players.push(AIPlayer.new(:X))
+        players.push(Player.new(:O))
+    end
+    return b, players
+end
+def play_a_single_game(b, p)
+    # Begin loop for a single game
+    # Continues until there is a winner or a tie 
+    turn = 0
+    while b.winner == :none
+        if p[turn%2].is_a? AIPlayer
+            puts "AIPlayer's turn"
+       end
+        puts display_board(b)
+        # If the player is a human, prompts for response
+        # If the player is AI, selects best move
+        r, c = p[turn%2].get_move(b)
+        b.make_move(r, c)
+        turn += 1
+        puts "\n\n"
+    end #end single game loop
+    return b
+end
+def display_game_results(b, p)
+    puts display_board(b)
+    champ = b.winner
+    if champ == :tie
+        puts "It was a tie."
+    elsif p[0].is_a?(Player) && champ == :X || 
+          p[1].is_a?(Player) && champ == :O
+        puts "You won!!!"
+    else 
+        puts "You lost!"
+    end    
+end
+def play_again
+    play = nil
+    until ["y", "n"].include? play
+        puts "Would you like to play again?(y or n)"
+        play = gets.chomp.downcase[0]
+    end
+    return play
 end

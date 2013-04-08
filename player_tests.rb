@@ -1,22 +1,31 @@
 require "test/unit"
 require "./player"
+require "./board"
 
+# requires input piped from player_tests.txt
 class PlayerTests < Test::Unit::TestCase
-    def test_makes_winning_move 
-        brd = Board.new
-        brd.make_move(Move.new(0, 0, 1))
-        brd.make_move(Move.new(1, 2, 2))
-        brd.make_move(Move.new(1, 1, 1))
-        brd.make_move(Move.new(2, 1, 2))
-        p = AIPlayer.new(1)
-        m = p.get_move(brd)
-        assert_equal(Move.new(2, 2, 1, 2), m, "AI should choose winning move")
+    def test_player_initialization
+        p = Player.new(:X)
+        assert_equal(:X, p.sym)
+
+        p = Player.new(:O)
+        assert_equal(:O, p.sym)
     end
-    def test_assumes_opponent_will_make_winning_move
-        brd = Board.new(9423, 2)
-        p = AIPlayer.new(2)
-        m = p.get_move(brd)
-        assert_equal(Move.new(0, 2, 1, 0), p.best_move[9441], "AI should assume other player will choose winning move")
-        assert_equal(Move.new(0, 2, 2, 1), m, "AI should make move to force a tie")
+    def test_player_get_move
+        b = Board.new
+        p = Player.new(:X)
+
+        r, c = p.get_move(b)
+        assert_equal(r, 0)
+        assert_equal(c, 0)
+
+        r, c = p.get_move(b)
+        assert_equal(r, 2)
+        assert_equal(c, 1)
+
+        b = Board.new([[:X, :X, :O], [:X, :O, nil], [nil, :O, nil]], :X)
+        r, c = p.get_move(b)
+        assert_equal(r, 2)
+        assert_equal(c, 2)
     end
 end
