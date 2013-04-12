@@ -10,6 +10,15 @@ To run the included unit tests run `rake test`
 The implementation of the AI is explained in the comments
 for `AIPlayer#get_move`
 
+Changes in V3
+=============
+* Split source and test files into separate directories
+* Rakefile now uses Rake::TestTask to run tests, much
+  cleaner output
+* All terminal IO is abstracted into Reader/Writer classes,
+  allows much better test coverage and cleaner output
+  (http://blog.8thlight.com/josh-cheek/2011/10/01/testing-code-thats-hard-to-test.html)
+
 Changes in V2
 =============
 

@@ -1,4 +1,3 @@
-# encoding: UTF-8
 class Board
     attr_reader :board_state
     attr_reader :current_player
@@ -34,59 +33,9 @@ class Board
         end
         return :none
     end
-
 end
 
 # Checks that all three args passed to it are non-nil and are the same
 def three_in_a_row?(a, b, c)
     return !a.nil? && a == b && b == c
-end
-
-# Returns a string display of the board, including cell
-# numbers to make selecting moves easier for the user
-def display_board(b)
-    def get_row_display(row_arr, row_num)
-        x = ["╲ ╱",
-             " ╳ ",
-             "╱ ╲"]
-        o =  ["┌─┐",
-              "│ │",
-              "└─┘"]
-        n = ["   ", 
-             "   ", 
-             "  "]
-        row = Array.new
-        0.upto(2) do |col|
-            if row_arr[col] == :X
-                row.push(x)
-            elsif row_arr[col] == :O
-                row.push(o)
-            else
-                row.push(n)
-            end
-        end
-        row_display = ""
-        0.upto(2) do |line|
-            0.upto(2) do |col|
-                row_display << row[col][line] + 
-                               if line == 2 && row[col] == n then (row_num*3 + col).to_s else "" end + 
-                               col_end(col)
-            end
-        end
-        row_display
-    end
-    retval = ""
-    div = "━━━╋━━━╋━━━\n"
-    retval << get_row_display(b.board_state[0], 0)
-    retval << div
-    retval << get_row_display(b.board_state[1], 1)
-    retval << div
-    retval << get_row_display(b.board_state[2], 2)
-end
-def col_end(col)
-    if col == 2
-        "\n"
-    else
-        "┃"
-    end
 end

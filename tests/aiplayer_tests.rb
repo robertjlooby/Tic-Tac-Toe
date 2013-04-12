@@ -1,6 +1,5 @@
-require "test/unit"
-require "./aiplayer"
-require "./board"
+require 'test/unit'
+require_relative '../src/aiplayer'
 
 class AIPlayerTests < Test::Unit::TestCase
     def test_aiplayer_initialization
