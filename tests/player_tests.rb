@@ -18,7 +18,7 @@ class PlayerTests < Test::Unit::TestCase
         b = Board.new
         @reader.responses = ["0"]
 
-        r, c = @p1.get_move(b, @reader, @writer)
+        r, c = @p1.get_move(b.board_state, @reader, @writer)
         assert_equal(r, 0)
         assert_equal(c, 0)
         assert_equal(1, @reader.times_read)
@@ -29,7 +29,7 @@ class PlayerTests < Test::Unit::TestCase
         b = Board.new
         @reader.responses = ["junk", "1still junk", "7"]
 
-        r, c = @p1.get_move(b, @reader, @writer)
+        r, c = @p1.get_move(b.board_state, @reader, @writer)
         assert_equal(r, 2)
         assert_equal(c, 1)
         assert_equal(3, @reader.times_read)
@@ -40,7 +40,7 @@ class PlayerTests < Test::Unit::TestCase
         b = Board.new([[:X, :X, :O], [:X, :O, nil], [nil, :O, nil]], :X)
         @reader.responses = ["0", "1", "2", "7", "8"]
 
-        r, c = @p1.get_move(b, @reader, @writer)
+        r, c = @p1.get_move(b.board_state, @reader, @writer)
         assert_equal(r, 2)
         assert_equal(c, 2)
         assert_equal(5, @reader.times_read)

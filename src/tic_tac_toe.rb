@@ -44,13 +44,19 @@ class TicTacToe
         # Continues until there is a winner or a tie 
         turn = 0
         while b.winner == :none
-            if p[turn%2].is_a? AIPlayer
+            cur_player = p[turn%2]
+            if cur_player.is_a? AIPlayer
                 writer.say_ai_turn
             end
             writer.display_board(b)
             # If the player is a human, prompts for response
             # If the player is AI, selects best move
-            r, c = p[turn%2].get_move(b, player_reader, player_writer)
+            r, c = 
+                if cur_player.is_a? Player
+                    cur_player.get_move(b.board_state, player_reader, player_writer)
+                else
+                    cur_player.get_move(b)
+                end
             b.make_move(r, c)
             turn += 1
             writer.add_spacing

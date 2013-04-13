@@ -8,7 +8,7 @@ class Player
     # Prompts the player for their move for a given board state and returns the 
     # move the player selects.
     # Will only accept moves for open board positions.
-    def get_move(brd, reader = Reader, writer = Writer)
+    def get_move(board_state, reader = Reader, writer = Writer)
         # Prompt user for the row/column until they enter a valid cell, where valid means
         # both are 0, 1, or 2 and that cell is still open
         writer.ask_for_cell(@sym)
@@ -16,12 +16,12 @@ class Player
         if ("0".."8").include?(cell)
             r = cell.to_i/3
             c = cell.to_i%3
-            if brd.board_state[r][c].nil?
+            if board_state[r][c].nil?
                 return r, c
             end
         end
         writer.notify_invalid_cell
-        get_move(brd, reader, writer)
+        get_move(board_state, reader, writer)
     end
 
     class Writer

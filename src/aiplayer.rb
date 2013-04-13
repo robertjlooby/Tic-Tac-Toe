@@ -25,7 +25,7 @@ class AIPlayer
     #    a) If it is its own turn, will pick the move that leads to the highest outcome
     #    b) If it is the opponents turn, will pick the move that leads to the lowest
     #       outcome (i.e. it assumes perfect play by the opponent as well)
-    def get_move(brd, *player_io)
+    def get_move(brd)
         if @best_move[brd.board_state].nil?
             # Have not examined this board_state yet
             0.upto(2) do |r|
