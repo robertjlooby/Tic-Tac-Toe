@@ -27,8 +27,8 @@ class AIPlayer
     def get_move(brd)
         if @best_move[brd.board_state].nil?
             # Have not examined this board_state yet
-            0.upto(2) do |r|
-                0.upto(2) do |c|
+            (0..2).each do |r|
+                (0..2).each do |c|
                     # Try each possible next move on the board to see
                     # if it will finish the game
                     if brd.board_state[r][c].nil?
@@ -51,8 +51,8 @@ class AIPlayer
             end
             # Game will not be ended this turn, look for outcomes from all possible moves
             moves = Array.new
-            0.upto(2) do |r|
-                0.upto(2) do |c|
+            (0..2).each do |r|
+                (0..2).each do |c|
                     if brd.board_state[r][c].nil?
                         new_brd = Board.new(Array.new(3){|r| Array.new(brd.board_state[r])}, brd.current_player)
                         new_brd.make_move(r, c)

@@ -117,7 +117,7 @@ class TicTacToe
                      "   ", 
                      "  "]
                 row = Array.new
-                0.upto(2) do |col|
+                (0..2).each do |col|
                     if row_arr[col] == :X
                         row.push(x)
                     elsif row_arr[col] == :O
@@ -127,8 +127,8 @@ class TicTacToe
                     end
                 end
                 row_display = ""
-                0.upto(2) do |line|
-                    0.upto(2) do |col|
+                (0..2).each do |line|
+                    (0..2).each do |col|
                         row_display << row[col][line] + 
                                        if line == 2 && row[col] == n then (row_num*3 + col).to_s else "" end + 
                                        col_end(col)

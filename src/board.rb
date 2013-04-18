@@ -29,7 +29,7 @@ class Board
     # if that player has won, :tie if it is a tie, and :none otherwise
     def winner
         # Check if any of the rows or columns are a win
-        0.upto(2) do |n|
+        (0..2).each do |n|
             if three_in_a_row?(row(n)) or three_in_a_row?(col(n))
                 return @board_state[n][n]
             end
