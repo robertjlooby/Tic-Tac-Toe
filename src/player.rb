@@ -1,7 +1,7 @@
 class Player
     attr_reader :sym
     def initialize(n)
-        # holds whether the player's symbol(:X or :O)
+        # holds the player's symbol(:X or :O)
         @sym = n
     end
     

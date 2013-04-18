@@ -11,20 +11,31 @@ class Board
         @current_player = (@current_player == :X ? :O : :X)
     end
 
+    def row(n)
+        @board_state[n]
+    end
+    def col(n)
+        [@board_state[0][n], @board_state[1][n], @board_state[2][n]]
+    end
+    def diag(direction)
+        if direction == :right
+            return [@board_state[0][0], @board_state[1][1], @board_state[2][2]]
+        else
+            return [@board_state[0][2], @board_state[1][1], @board_state[2][0]]
+        end
+    end
+
     # Checks the board to see if there is a winner.  Will return :X or :O
     # if that player has won, :tie if it is a tie, and :none otherwise
     def winner
         # Check if any of the rows or columns are a win
         0.upto(2) do |n|
-            if three_in_a_row?(@board_state[n][0], @board_state[n][1], @board_state[n][2])
-                return @board_state[n][0]
-            elsif three_in_a_row?(@board_state[0][n], @board_state[1][n], @board_state[2][n])
-                return @board_state[0][n]
+            if three_in_a_row?(row(n)) or three_in_a_row?(col(n))
+                return @board_state[n][n]
             end
         end
         # Check diagonals
-        if three_in_a_row?(@board_state[0][0], @board_state[1][1], @board_state[2][2]) ||
-            three_in_a_row?(@board_state[0][2], @board_state[1][1], @board_state[2][0])
+        if three_in_a_row?(diag(:left)) or three_in_a_row?(diag(:right))
             return @board_state[1][1]
         end
         unless @board_state.flatten.include? nil
@@ -34,7 +45,11 @@ class Board
     end
 end
 
-# Checks that all three args passed to it are non-nil and are the same
-def three_in_a_row?(a, b, c)
-    return !a.nil? && a == b && b == c
+# Checks that all elements of the array passed to it are non-nil and are the same
+def three_in_a_row?(a)
+    return false if a[0].nil?
+    1.upto(a.size - 1) do |n|
+        return false unless a[0] == a[n]
+    end
+    return true
 end

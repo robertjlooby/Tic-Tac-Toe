@@ -36,12 +36,12 @@ class BoardTests < Test::Unit::TestCase
         assert_equal(:X, b.current_player)
     end
     def test_three_in_a_row
-        assert_equal(false, three_in_a_row?(nil,nil,nil))
-        assert_equal(false, three_in_a_row?(nil,:X,:X))
-        assert_equal(false, three_in_a_row?(:X,:X,nil))
-        assert_equal(false, three_in_a_row?(:X,:X,:O))
-        assert_equal(true, three_in_a_row?(:X,:X,:X))
-        assert_equal(true, three_in_a_row?(:O,:O,:O))
+        assert_equal(false, three_in_a_row?([nil,nil,nil]))
+        assert_equal(false, three_in_a_row?([nil,:X,:X]))
+        assert_equal(false, three_in_a_row?([:X,:X,nil]))
+        assert_equal(false, three_in_a_row?([:X,:X,:O]))
+        assert_equal(true, three_in_a_row?([:X,:X,:X]))
+        assert_equal(true, three_in_a_row?([:O,:O,:O]))
     end
     def test_winner
         b = Board.new
