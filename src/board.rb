@@ -48,8 +48,5 @@ end
 # Checks that all elements of the array passed to it are non-nil and are the same
 def three_in_a_row?(a)
     return false if a[0].nil?
-    1.upto(a.size - 1) do |n|
-        return false unless a[0] == a[n]
-    end
-    return true
+    return a.count(a[0]) == a.size
 end
