@@ -1,8 +1,7 @@
 require_relative './board'
 
 class AIPlayer
-    attr_reader :sym
-    attr_reader :best_move
+    attr_reader :sym, :best_move
     def initialize(s)
         @sym = s
         # @best move is a hash of {board_state => Move}
@@ -81,10 +80,7 @@ class AIPlayer
         end
     end
     class Move
-        attr_reader :row
-        attr_reader :col
-        attr_reader :player
-        attr_reader :outcome
+        attr_reader :row, :col, :player, :outcome
         def initialize(row, col, player, outcome)
             @row = row
             @col = col

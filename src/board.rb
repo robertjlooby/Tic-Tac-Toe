@@ -1,6 +1,5 @@
 class Board
-    attr_reader :board_state
-    attr_reader :current_player
+    attr_reader :board_state, :current_player
     def initialize(n = Array.new(3){ Array.new(3, nil) }, p = :X)
         @board_state = n
         @current_player = p
