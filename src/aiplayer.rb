@@ -44,7 +44,7 @@ class AIPlayer
                 # Try each possible next move on the board to see
                 # if it will finish the game
                 if brd.board_state[r][c].nil?
-                    new_brd = Board.new(Array.new(3){|r| Array.new(brd.board_state[r])}, brd.current_player)
+                    new_brd = brd.deep_copy
                     new_brd.make_move(r, c)
                     # If this move results in a win, store it and return it
                     if logic.winner(new_brd) != :none 
@@ -68,7 +68,7 @@ class AIPlayer
         (0..2).each do |r|
             (0..2).each do |c|
                 if brd.board_state[r][c].nil?
-                    new_brd = Board.new(Array.new(3){|r| Array.new(brd.board_state[r])}, brd.current_player)
+                    new_brd = brd.deep_copy
                     new_brd.make_move(r, c)
                     nr, nc, np, no = self.get_move(new_brd, logic)
                     # Collect array of all possible moves

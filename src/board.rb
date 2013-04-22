@@ -24,4 +24,7 @@ class Board
             return [@board_state[0][2], @board_state[1][1], @board_state[2][0]]
         end
     end
+    def deep_copy
+        Board.new(Array.new(3){|r| Array.new(@board_state[r])}, @current_player)
+    end
 end

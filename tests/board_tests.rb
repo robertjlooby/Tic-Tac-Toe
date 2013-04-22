@@ -35,4 +35,12 @@ class BoardTests < Test::Unit::TestCase
         assert_equal([[:X, :O, :X], [nil, :O, nil], [nil, nil, nil]], b.board_state)
         assert_equal(:X, b.current_player)
     end
+    def test_deep_copy
+        b1 = Board.new([[:X, :O, :X], [nil, :O, nil], [nil, :X, nil]], :O)
+        b2 = b1.deep_copy
+        assert_equal(b1.board_state, b2.board_state)
+        assert_equal(b1.current_player, b2.current_player)
+        assert_not_equal(b1.object_id, b2.object_id)
+        assert_not_equal(b1.board_state.object_id, b2.board_state.object_id)
+    end
 end
