@@ -25,35 +25,35 @@ class AIPlayer
     #    a) If it is its own turn, will pick the move that leads to the highest outcome
     #    b) If it is the opponents turn, will pick the move that leads to the lowest
     #       outcome (i.e. it assumes perfect play by the opponent as well)
-    def get_move(brd, logic)
-        if @best_move[brd.board_state].nil?
+    def get_move(board, logic)
+        if @best_move[board.board_state].nil?
             # Have not examined this board_state yet
-            return get_game_ending_move(brd, logic) unless get_game_ending_move(brd, logic).nil?
+            return get_game_ending_move(board, logic) unless get_game_ending_move(board, logic).nil?
             # Game will not be ended this turn, look for outcomes from all possible moves
-            return get_next_move(brd, logic)
+            return get_next_move(board, logic)
         else
             # Have already examined this state, make the stored move
-            return @best_move[brd.board_state].fields
+            return @best_move[board.board_state].fields
         end
     end
-    def get_game_ending_move(brd, logic)
-        (0..2).each do |r|
-            (0..2).each do |c|
+    def get_game_ending_move(board, logic)
+        (0..2).each do |row|
+            (0..2).each do |col|
                 # Try each possible next move on the board to see
                 # if it will finish the game
-                if brd.board_state[r][c].nil?
-                    new_brd = brd.deep_copy
-                    new_brd.make_move(r, c)
+                if board.board_state[row][col].nil?
+                    new_board = board.deep_copy
+                    new_board.make_move(row, col)
                     # If this move results in a win, store it and return it
-                    if logic.winner(new_brd) != :none 
-                        move =  if logic.winner(new_brd) == @sym
-                                    Move.new(r, c, brd.current_player, 2)
-                                elsif logic.winner(new_brd) == :tie
-                                    Move.new(r, c, brd.current_player, 1)
+                    if logic.winner(new_board) != :none 
+                        move =  if logic.winner(new_board) == @sym
+                                    Move.new(row, col, board.current_player, 2)
+                                elsif logic.winner(new_board) == :tie
+                                    Move.new(row, col, board.current_player, 1)
                                 else
-                                    Move.new(r, c, brd.current_player, 0)
+                                    Move.new(row, col, board.current_player, 0)
                         end
-                        @best_move[brd.board_state] = move
+                        @best_move[board.board_state] = move
                         return move.fields
                     end
                 end
@@ -61,21 +61,21 @@ class AIPlayer
         end
         return nil
     end
-    def get_next_move(brd, logic)
+    def get_next_move(board, logic)
         moves = Array.new
-        (0..2).each do |r|
-            (0..2).each do |c|
-                if brd.board_state[r][c].nil?
-                    new_brd = brd.deep_copy
-                    new_brd.make_move(r, c)
-                    nr, nc, np, no = self.get_move(new_brd, logic)
+        (0..2).each do |row|
+            (0..2).each do |col|
+                if board.board_state[row][col].nil?
+                    new_board = board.deep_copy
+                    new_board.make_move(row, col)
+                    nr, nc, np, no = self.get_move(new_board, logic)
                     # Collect array of all possible moves
-                    moves.push(Move.new(r, c, brd.current_player, no))
+                    moves.push(Move.new(row, col, board.current_player, no))
                 end
             end
         end
         # Sort array of moves by their outcomes
-        if brd.current_player == @sym
+        if board.current_player == @sym
             # The current player wants to maximize the outcome
             moves.sort! {|a, b| a <=> b}
         else
@@ -83,7 +83,7 @@ class AIPlayer
             # (i.e. by maximizing their own outcome)
             moves.sort! {|a, b| b <=> a}
         end
-        @best_move[brd.board_state] = moves[0]
+        @best_move[board.board_state] = moves[0]
         return moves[0].fields
     end
 end

@@ -1,13 +1,13 @@
 class Board
     attr_reader :board_state, :current_player
-    def initialize(n = Array.new(3){ Array.new(3, nil) }, p = :X)
-        @board_state = n
-        @current_player = p
+    def initialize(board_state = Array.new(3){ Array.new(3, nil) }, player = :X)
+        @board_state = board_state
+        @current_player = player
     end
 
     # Given a row and column, makes the move which alters @board_state
-    def make_move(r, c)
-        @board_state[r][c] = @current_player
+    def make_move(row, col)
+        @board_state[row][col] = @current_player
         @current_player = (@current_player == :X ? :O : :X)
     end
 
@@ -25,6 +25,6 @@ class Board
         end
     end
     def deep_copy
-        Board.new(Array.new(3){|r| Array.new(@board_state[r])}, @current_player)
+        Board.new(Array.new(3){|row| Array.new(@board_state[row])}, @current_player)
     end
 end

@@ -1,8 +1,8 @@
 class Player
     attr_reader :sym
-    def initialize(n)
+    def initialize(sym)
         # holds the player's symbol(:X or :O)
-        @sym = n
+        @sym = sym
     end
     
     # Prompts the player for their move for a given board state and returns the 
@@ -14,10 +14,10 @@ class Player
         writer.ask_for_cell(@sym)
         cell = reader.read_cell
         if ("0".."8").include?(cell)
-            r = cell.to_i/3
-            c = cell.to_i%3
-            if board_state[r][c].nil?
-                return r, c
+            row = cell.to_i/3
+            col = cell.to_i%3
+            if board_state[row][col].nil?
+                return row, col
             end
         end
         writer.notify_invalid_cell

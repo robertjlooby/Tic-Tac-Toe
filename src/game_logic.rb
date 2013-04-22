@@ -19,8 +19,8 @@ class GameLogic
     end
 
     # Checks that all elements of the array passed to it are non-nil and are the same
-    def self.three_in_a_row?(a)
-        return false if a[0].nil?
-        return a.count(a[0]) == a.size
+    def self.three_in_a_row?(arr)
+        return false if arr[0].nil?
+        return arr.count(arr[0]) == arr.size
     end
 end

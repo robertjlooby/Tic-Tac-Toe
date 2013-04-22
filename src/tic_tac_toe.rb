@@ -13,11 +13,11 @@ class TicTacToe
         while play == "y"
             first = get_first
 
-            b, players = set_up_game(first)
+            board, players = set_up_game(first)
 
-            b = play_a_single_game(b, players)
+            board = play_a_single_game(board, players)
 
-            display_game_results(b, players)
+            display_game_results(board, players)
             
             # Let player choose if they want to play another game
             play = play_again
@@ -31,7 +31,7 @@ class TicTacToe
     end
     def set_up_game(first)
         # Initialize the board and players
-        b = Board.new
+        board = Board.new
         players = Array.new
         if first == "y"
             players.push(Player.new(:X))
@@ -40,39 +40,39 @@ class TicTacToe
             players.push(AIPlayer.new(:X))
             players.push(Player.new(:O))
         end
-        return b, players
+        return board, players
     end
-    def play_a_single_game(b, p, writer = Writer, player_reader = Player::Reader, player_writer = Player::Writer)
+    def play_a_single_game(board, players, writer = Writer, player_reader = Player::Reader, player_writer = Player::Writer)
         # Begin loop for a single game
         # Continues until there is a winner or a tie 
         turn = 0
-        while @logic.winner(b) == :none
-            cur_player = p[turn%2]
+        while @logic.winner(board) == :none
+            cur_player = players[turn%2]
             if cur_player.is_a? AIPlayer
                 writer.say_ai_turn
             end
-            writer.display_board(b)
+            writer.display_board(board)
             # If the player is a human, prompts for response
             # If the player is AI, selects best move
-            r, c = 
+            row, col = 
                 if cur_player.is_a? Player
-                    cur_player.get_move(b.board_state, player_reader, player_writer)
+                    cur_player.get_move(board.board_state, player_reader, player_writer)
                 else
-                    cur_player.get_move(b, @logic)
+                    cur_player.get_move(board, @logic)
                 end
-            b.make_move(r, c)
+            board.make_move(row, col)
             turn += 1
             writer.add_spacing
-        end #end single game loop
-        return b
+        end
+        return board
     end
-    def display_game_results(b, p, writer = Writer)
-        writer.display_board(b)
-        champ = @logic.winner(b)
+    def display_game_results(board, players, writer = Writer)
+        writer.display_board(board)
+        champ = @logic.winner(board)
         if champ == :tie
             writer.say_tie
-        elsif p[0].is_a?(Player) && champ == :X || 
-              p[1].is_a?(Player) && champ == :O
+        elsif players[0].is_a?(Player) && champ == :X || 
+              players[1].is_a?(Player) && champ == :O
             writer.say_win
         else 
             writer.say_lost
@@ -108,7 +108,7 @@ class TicTacToe
         end
         # Returns a string display of the board, including cell
         # numbers to make selecting moves easier for the user
-        def self.display_board(b, o_stream = $stdout)
+        def self.display_board(board, o_stream = $stdout)
             def self.get_row_display(row_arr, row_num)
                 x = ["╲ ╱",
                      " ╳ ",
@@ -148,11 +148,11 @@ class TicTacToe
             end
             retval = ""
             div = "━━━╋━━━╋━━━\n"
-            retval << get_row_display(b.board_state[0], 0)
+            retval << get_row_display(board.board_state[0], 0)
             retval << div
-            retval << get_row_display(b.board_state[1], 1)
+            retval << get_row_display(board.board_state[1], 1)
             retval << div
-            retval << get_row_display(b.board_state[2], 2)
+            retval << get_row_display(board.board_state[2], 2)
             o_stream.puts retval
         end
     end
