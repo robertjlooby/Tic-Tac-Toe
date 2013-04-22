@@ -35,6 +35,23 @@ class BoardTests < Test::Unit::TestCase
         assert_equal([[:X, :O, :X], [nil, :O, nil], [nil, nil, nil]], b.board_state)
         assert_equal(:X, b.current_player)
     end
+    def test_row
+        b = Board.new([[:X, :O, :X], [nil, :O, nil], [nil, :X, nil]], :O)
+        assert_equal([:X, :O, :X], b.row(0))
+        assert_equal([nil, :O, nil], b.row(1))
+        assert_equal([nil, :X, nil], b.row(2))
+    end
+    def test_col
+        b = Board.new([[:X, :O, :X], [nil, :O, nil], [nil, :X, nil]], :O)
+        assert_equal([:X, nil, nil], b.col(0))
+        assert_equal([:O, :O, :X], b.col(1))
+        assert_equal([:X, nil, nil], b.col(2))
+    end
+    def test_diag
+        b = Board.new([[:X, :O, :O], [nil, :O, nil], [nil, :X, nil]], :O)
+        assert_equal([:X, :O, nil], b.diag(:right))
+        assert_equal([:O, :O, nil], b.diag(:left))
+    end
     def test_deep_copy
         b1 = Board.new([[:X, :O, :X], [nil, :O, nil], [nil, :X, nil]], :O)
         b2 = b1.deep_copy
