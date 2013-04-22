@@ -2,12 +2,13 @@ require 'test/unit'
 require 'stringio'
 require_relative '../src/tic_tac_toe'
 require_relative '../tests/player_tests'
+require_relative '../src/game_logic'
 
 class TicTacToeTests < Test::Unit::TestCase
     def setup
         @reader = MockReader.new
         @writer = MockWriter.new
-        @game = TicTacToe.new
+        @game = TicTacToe.new GameLogic
     end
     def test_get_first_y
         @reader.responses = ["y"]
@@ -42,7 +43,6 @@ class TicTacToeTests < Test::Unit::TestCase
         @player_writer = PlayerTests::MockWriter.new
         b, p = @game.set_up_game("y")
         b = @game.play_a_single_game(b, p, @writer, @player_reader, @player_writer)
-        assert_equal(:tie, b.winner)
         assert_equal([[:X, :O, :X], [:O, :O, :X], [:X, :X, :O]], b.board_state)
         assert_equal(5, @player_reader.times_read)
         assert_equal(5, @player_writer.times_asked_for_cell)

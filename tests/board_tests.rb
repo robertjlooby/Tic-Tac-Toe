@@ -35,31 +35,4 @@ class BoardTests < Test::Unit::TestCase
         assert_equal([[:X, :O, :X], [nil, :O, nil], [nil, nil, nil]], b.board_state)
         assert_equal(:X, b.current_player)
     end
-    def test_three_in_a_row
-        assert_equal(false, three_in_a_row?([nil,nil,nil]))
-        assert_equal(false, three_in_a_row?([nil,:X,:X]))
-        assert_equal(false, three_in_a_row?([:X,:X,nil]))
-        assert_equal(false, three_in_a_row?([:X,:X,:O]))
-        assert_equal(true, three_in_a_row?([:X,:X,:X]))
-        assert_equal(true, three_in_a_row?([:O,:O,:O]))
-    end
-    def test_winner
-        b = Board.new
-        assert_equal(:none, b.winner)
-
-        b = Board.new([[:X, :O, :X], [nil, :O, nil], [nil, :X, nil]], :O)
-        assert_equal(:none, b.winner)
-
-        b = Board.new([[:X, :O, :X], [:O, :O, :X], [:X, :X, :O]], :O)
-        assert_equal(:tie, b.winner)
-
-        b = Board.new([[:O, :X, :X], [:X, :X, :O], [:O, :O, :X]], :O)
-        assert_equal(:tie, b.winner)
-
-        b = Board.new([[:X, :O, :O], [:X, :X, :O], [:O, :X, :X]], :O)
-        assert_equal(:X, b.winner)
-
-        b = Board.new([[:X, :X, :O], [:X, :O, nil], [:O, nil, nil]], :X)
-        assert_equal(:O, b.winner)
-    end
 end

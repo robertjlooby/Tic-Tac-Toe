@@ -4,6 +4,9 @@ require_relative './player'
 require_relative './aiplayer'
 
 class TicTacToe
+    def initialize(logic)
+        @logic = logic
+    end
     def play
         play = "y"
         # Begin game loop, will play games as long as the user wants to
@@ -43,7 +46,7 @@ class TicTacToe
         # Begin loop for a single game
         # Continues until there is a winner or a tie 
         turn = 0
-        while b.winner == :none
+        while @logic.winner(b) == :none
             cur_player = p[turn%2]
             if cur_player.is_a? AIPlayer
                 writer.say_ai_turn
@@ -55,7 +58,7 @@ class TicTacToe
                 if cur_player.is_a? Player
                     cur_player.get_move(b.board_state, player_reader, player_writer)
                 else
-                    cur_player.get_move(b)
+                    cur_player.get_move(b, @logic)
                 end
             b.make_move(r, c)
             turn += 1
@@ -65,7 +68,7 @@ class TicTacToe
     end
     def display_game_results(b, p, writer = Writer)
         writer.display_board(b)
-        champ = b.winner
+        champ = @logic.winner(b)
         if champ == :tie
             writer.say_tie
         elsif p[0].is_a?(Player) && champ == :X || 

@@ -24,29 +24,4 @@ class Board
             return [@board_state[0][2], @board_state[1][1], @board_state[2][0]]
         end
     end
-
-    # Checks the board to see if there is a winner.  Will return :X or :O
-    # if that player has won, :tie if it is a tie, and :none otherwise
-    def winner
-        # Check if any of the rows or columns are a win
-        (0..2).each do |n|
-            if three_in_a_row?(row(n)) or three_in_a_row?(col(n))
-                return @board_state[n][n]
-            end
-        end
-        # Check diagonals
-        if three_in_a_row?(diag(:left)) or three_in_a_row?(diag(:right))
-            return @board_state[1][1]
-        end
-        unless @board_state.flatten.include? nil
-            return :tie
-        end
-        return :none
-    end
-end
-
-# Checks that all elements of the array passed to it are non-nil and are the same
-def three_in_a_row?(a)
-    return false if a[0].nil?
-    return a.count(a[0]) == a.size
 end
