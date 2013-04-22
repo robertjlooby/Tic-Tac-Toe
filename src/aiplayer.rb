@@ -28,14 +28,12 @@ class AIPlayer
     def get_move(brd, logic)
         if @best_move[brd.board_state].nil?
             # Have not examined this board_state yet
-            r, c, p, o = get_game_ending_move(brd, logic)
-            return r, c, p, o unless r.nil?
+            return get_game_ending_move(brd, logic) unless get_game_ending_move(brd, logic).nil?
             # Game will not be ended this turn, look for outcomes from all possible moves
             return get_next_move(brd, logic)
         else
             # Have already examined this state, make the stored move
-            move = @best_move[brd.board_state]
-            return move.row, move.col, move.player, move.outcome
+            return @best_move[brd.board_state].fields
         end
     end
     def get_game_ending_move(brd, logic)
@@ -56,7 +54,7 @@ class AIPlayer
                                     Move.new(r, c, brd.current_player, 0)
                         end
                         @best_move[brd.board_state] = move
-                        return move.row, move.col, move.player, move.outcome
+                        return move.fields
                     end
                 end
             end
@@ -86,6 +84,6 @@ class AIPlayer
             moves.sort! {|a, b| b <=> a}
         end
         @best_move[brd.board_state] = moves[0]
-        return moves[0].row, moves[0].col, moves[0].player, moves[0].outcome
+        return moves[0].fields
     end
 end

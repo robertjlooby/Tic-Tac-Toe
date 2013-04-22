@@ -32,6 +32,9 @@ class Move
             return 0
         end
     end
+    def fields
+        return @row, @col, @player, @outcome
+    end
     def to_s
         "Move: row=#{@row}, col=#{@col}, player=#{@player}, outcome=#{@outcome}"
     end

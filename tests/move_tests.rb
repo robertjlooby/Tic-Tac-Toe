@@ -33,4 +33,8 @@ class AIPlayerTests < Test::Unit::TestCase
         moves.sort!
         assert_equal([m6, m3, m5, m2, m4, m1], moves)
     end
+    def test_fields
+        m = Move.new(1, 2, :X, 0)
+        assert_equal([1, 2, :X, 0], m.fields)
+    end
 end
