@@ -24,7 +24,7 @@ class Player
 
     class Writer
         def self.ask_for_cell(sym, o_stream = $stdout)
-            o_stream.puts "Where would you like to move? (you are #{sym.to_s}'s, enter the cell number)"
+            o_stream.puts "Where would you like to move? (you are #{sym}'s, enter the cell number)"
         end
         def self.notify_invalid_cell(o_stream = $stdout)
             o_stream.puts "The cell you entered was not valid!"

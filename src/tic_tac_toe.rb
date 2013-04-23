@@ -42,7 +42,8 @@ class TicTacToe
         end
         return board, players
     end
-    def play_a_single_game(board, players, writer = Writer, player_reader = Player::Reader, player_writer = Player::Writer)
+    def play_a_single_game(board, players, writer = Writer, player_reader = Player::Reader, 
+                           player_writer = Player::Writer)
         # Begin loop for a single game
         # Continues until there is a winner or a tie 
         turn = 0
@@ -140,7 +141,8 @@ class TicTacToe
             (0..2).each do |line|
                 (0..2).each do |col|
                     row_display << row[col][line] + 
-                                   if line == 2 && row[col] == n then (row_num*3 + col).to_s else "" end + 
+                                   if line == 2 && row[col] == n then (row_num*3 + col).to_s 
+                                   else "" end + 
                                    col_end(col)
                 end
             end

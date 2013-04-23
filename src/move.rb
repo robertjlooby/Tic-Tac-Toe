@@ -12,7 +12,8 @@ class Move
 
     # Two moves are considered equal if all their internal data are equal
     def ==(other)
-        return other.is_a?(Move) && @row == other.row && @col == other.col && @player == other.player && @outcome == other.outcome
+        return other.is_a?(Move) && @row == other.row && @col == other.col && 
+                          @player == other.player && @outcome == other.outcome
     end
 
     # For sorting Arrays of moves
