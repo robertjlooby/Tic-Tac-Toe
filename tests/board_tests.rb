@@ -69,4 +69,17 @@ class BoardTests < Test::Unit::TestCase
             calls += 1
         end
     end
+    def test_each_nil_cell
+        b = Board.new([[:X, nil, nil], [nil, :O, nil], [nil, nil, :X]], :O)
+        b.each_nil_cell do |row, col|
+            assert_not_equal(row, col)
+        end
+        b = Board.new([[:X, :O, :X], [:O, :O, :X], [nil, nil, nil]], :X)
+        calls = 0
+        b.each_nil_cell do |row, col|
+            assert_equal(2, row)
+            assert_equal(calls % 3, col)
+            calls += 1
+        end
+    end
 end

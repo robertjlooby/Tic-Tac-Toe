@@ -34,4 +34,9 @@ class Board
             end
         end
     end
+    def each_nil_cell
+        each_cell do |row, col|
+            yield(row, col) if @board_state[row][col].nil?
+        end
+    end
 end
