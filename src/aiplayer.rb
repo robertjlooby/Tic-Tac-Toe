@@ -74,16 +74,15 @@ class AIPlayer
                 end
             end
         end
-        # Sort array of moves by their outcomes
-        if board.current_player == @sym
-            # The current player wants to maximize the outcome
-            moves.sort! {|a, b| a <=> b}
-        else
-            # Other players want to minimize the outcome for the current player
-            # (i.e. by maximizing their own outcome)
-            moves.sort! {|a, b| b <=> a}
-        end
+        move_sort(moves, board.current_player == @sym)
         @best_move[board.board_state] = moves[0]
         return moves[0].fields
+    end
+    def move_sort(moves, maximize)
+        if maximize
+            moves.sort! {|a, b| a <=> b}
+        else
+            moves.sort! {|a, b| b <=> a}
+        end
     end
 end

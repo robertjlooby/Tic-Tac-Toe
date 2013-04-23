@@ -50,4 +50,18 @@ class AIPlayerTests < Test::Unit::TestCase
         assert_equal(Move.new(0, 2, :X, 0), pl.best_move[[[:X, :X, nil], [:O, :O, :X], [:O, nil, nil]]], "AI should assume other player will choose winning move")
         assert_equal(Move.new(0, 2, :O, 1), Move.new(r, c, p, o), "AI should make move to force a tie")
     end
+    def test_move_sort
+        pl = AIPlayer.new(:X)
+        m1 = Move.new(0, 0, :X, 0)
+        m2 = Move.new(0, 0, :X, 1)
+        m3 = Move.new(0, 0, :X, 2)
+        m4 = Move.new(1, 1, :X, 0)
+        m5 = Move.new(1, 1, :X, 1)
+        m6 = Move.new(1, 1, :X, 2)
+        moves = [m1, m2, m3, m4, m5, m6]
+        pl.move_sort(moves, true)
+        assert_equal([m6, m3, m5, m2, m4, m1], moves)
+        pl.move_sort(moves, false)
+        assert_equal([m1, m4, m2, m5, m3, m6], moves)
+    end
 end

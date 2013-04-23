@@ -47,18 +47,18 @@ class TicTacToe
         # Continues until there is a winner or a tie 
         turn = 0
         while @logic.winner(board) == :none
-            cur_player = players[turn%2]
-            if cur_player.is_a? AIPlayer
+            current_player = players[turn%2]
+            if current_player.is_a? AIPlayer
                 writer.say_ai_turn
             end
             writer.display_board(board)
             # If the player is a human, prompts for response
             # If the player is AI, selects best move
             row, col = 
-                if cur_player.is_a? Player
-                    cur_player.get_move(board.board_state, player_reader, player_writer)
+                if current_player.is_a? Player
+                    current_player.get_move(board.board_state, player_reader, player_writer)
                 else
-                    cur_player.get_move(board, @logic)
+                    current_player.get_move(board, @logic)
                 end
             board.make_move(row, col)
             turn += 1
@@ -109,43 +109,6 @@ class TicTacToe
         # Returns a string display of the board, including cell
         # numbers to make selecting moves easier for the user
         def self.display_board(board, o_stream = $stdout)
-            def self.get_row_display(row_arr, row_num)
-                x = ["╲ ╱",
-                     " ╳ ",
-                     "╱ ╲"]
-                o =  ["┌─┐",
-                      "│ │",
-                      "└─┘"]
-                n = ["   ", 
-                     "   ", 
-                     "  "]
-                row = Array.new
-                (0..2).each do |col|
-                    if row_arr[col] == :X
-                        row.push(x)
-                    elsif row_arr[col] == :O
-                        row.push(o)
-                    else
-                        row.push(n)
-                    end
-                end
-                row_display = ""
-                (0..2).each do |line|
-                    (0..2).each do |col|
-                        row_display << row[col][line] + 
-                                       if line == 2 && row[col] == n then (row_num*3 + col).to_s else "" end + 
-                                       col_end(col)
-                    end
-                end
-                row_display
-            end
-            def self.col_end(col)
-                if col == 2
-                    "\n"
-                else
-                    "┃"
-                end
-            end
             retval = ""
             div = "━━━╋━━━╋━━━\n"
             retval << get_row_display(board.board_state[0], 0)
@@ -154,6 +117,43 @@ class TicTacToe
             retval << div
             retval << get_row_display(board.board_state[2], 2)
             o_stream.puts retval
+        end
+        def self.get_row_display(row_arr, row_num)
+            x = ["╲ ╱",
+                 " ╳ ",
+                 "╱ ╲"]
+            o =  ["┌─┐",
+                  "│ │",
+                  "└─┘"]
+            n = ["   ", 
+                 "   ", 
+                 "  "]
+            row = Array.new
+            (0..2).each do |col|
+                if row_arr[col] == :X
+                    row.push(x)
+                elsif row_arr[col] == :O
+                    row.push(o)
+                else
+                    row.push(n)
+                end
+            end
+            row_display = ""
+            (0..2).each do |line|
+                (0..2).each do |col|
+                    row_display << row[col][line] + 
+                                   if line == 2 && row[col] == n then (row_num*3 + col).to_s else "" end + 
+                                   col_end(col)
+                end
+            end
+            row_display
+        end
+        def self.col_end(col)
+            if col == 2
+                "\n"
+            else
+                "┃"
+            end
         end
     end
     class Reader
