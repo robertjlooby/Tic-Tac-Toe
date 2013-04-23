@@ -48,9 +48,7 @@ class TicTacToe
         turn = 0
         while @logic.winner(board) == :none
             current_player = players[turn%2]
-            if current_player.is_a? AIPlayer
-                writer.say_ai_turn
-            end
+            writer.say_ai_turn if current_player.is_a? AIPlayer
             writer.display_board(board)
             # If the player is a human, prompts for response
             # If the player is AI, selects best move

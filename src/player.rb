@@ -16,9 +16,7 @@ class Player
         if ("0".."8").include?(cell)
             row = cell.to_i/3
             col = cell.to_i%3
-            if board_state[row][col].nil?
-                return row, col
-            end
+            return row, col if board_state[row][col].nil?
         end
         writer.notify_invalid_cell
         get_move(board_state, reader, writer)

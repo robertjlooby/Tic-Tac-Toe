@@ -18,11 +18,8 @@ class Board
         [@board_state[0][n], @board_state[1][n], @board_state[2][n]]
     end
     def diag(direction)
-        if direction == :right
-            return [@board_state[0][0], @board_state[1][1], @board_state[2][2]]
-        else
-            return [@board_state[0][2], @board_state[1][1], @board_state[2][0]]
-        end
+        return [@board_state[0][0], @board_state[1][1], @board_state[2][2]] if direction == :right
+        return [@board_state[0][2], @board_state[1][1], @board_state[2][0]]
     end
     def deep_copy
         Board.new(Array.new(3){|row| Array.new(@board_state[row])}, @current_player)

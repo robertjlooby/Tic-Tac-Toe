@@ -4,17 +4,11 @@ class GameLogic
     def self.winner(board)
         # Check if any of the rows or columns are a win
         (0..2).each do |n|
-            if three_in_a_row?(board.row(n)) or three_in_a_row?(board.col(n))
-                return board.board_state[n][n]
-            end
+            return board.board_state[n][n] if three_in_a_row?(board.row(n)) or three_in_a_row?(board.col(n))
         end
         # Check diagonals
-        if three_in_a_row?(board.diag(:left)) or three_in_a_row?(board.diag(:right))
-            return board.board_state[1][1]
-        end
-        unless board.board_state.flatten.include? nil
-            return :tie
-        end
+        return board.board_state[1][1] if three_in_a_row?(board.diag(:left)) or three_in_a_row?(board.diag(:right))
+        return :tie unless board.board_state.flatten.include? nil
         return :none
     end
 

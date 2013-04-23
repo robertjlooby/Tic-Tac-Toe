@@ -20,17 +20,11 @@ class Move
     # and if outcomes are tied will favor moves in the center as these give
     # the opponent more chances to mess up.
     def <=>(other)
-        if @outcome > other.outcome
-            return -1
-        elsif @outcome < other.outcome
-            return 1
-        elsif @row == 1 && @col == 1
-            return -1
-        elsif other.row == 1 && other.col == 1
-            return 1
-        else
-            return 0
-        end
+        return -1 if @outcome > other.outcome
+        return  1 if @outcome < other.outcome
+        return -1 if @row == 1 && @col == 1
+        return  1 if other.row == 1 && other.col == 1
+        return  0
     end
     def fields
         return @row, @col, @player, @outcome
