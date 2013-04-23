@@ -37,25 +37,23 @@ class AIPlayer
         end
     end
     def get_game_ending_move(board, logic)
-        (0..2).each do |row|
-            (0..2).each do |col|
-                # Try each possible next move on the board to see
-                # if it will finish the game
-                if board.board_state[row][col].nil?
-                    new_board = board.deep_copy
-                    new_board.make_move(row, col)
-                    # If this move results in a win, store it and return it
-                    if logic.winner(new_board) != :none 
-                        move =  if logic.winner(new_board) == @sym
-                                    Move.new(row, col, board.current_player, 2)
-                                elsif logic.winner(new_board) == :tie
-                                    Move.new(row, col, board.current_player, 1)
-                                else
-                                    Move.new(row, col, board.current_player, 0)
-                        end
-                        @best_move[board.board_state] = move
-                        return move.fields
+        board.each_cell do |row, col|
+            # Try each possible next move on the board to see
+            # if it will finish the game
+            if board.board_state[row][col].nil?
+                new_board = board.deep_copy
+                new_board.make_move(row, col)
+                # If this move results in a win, store it and return it
+                if logic.winner(new_board) != :none 
+                    move =  if logic.winner(new_board) == @sym
+                                Move.new(row, col, board.current_player, 2)
+                            elsif logic.winner(new_board) == :tie
+                                Move.new(row, col, board.current_player, 1)
+                            else
+                                Move.new(row, col, board.current_player, 0)
                     end
+                    @best_move[board.board_state] = move
+                    return move.fields
                 end
             end
         end
@@ -63,15 +61,13 @@ class AIPlayer
     end
     def get_next_move(board, logic)
         moves = Array.new
-        (0..2).each do |row|
-            (0..2).each do |col|
-                if board.board_state[row][col].nil?
-                    new_board = board.deep_copy
-                    new_board.make_move(row, col)
-                    nr, nc, np, no = self.get_move(new_board, logic)
-                    # Collect array of all possible moves
-                    moves.push(Move.new(row, col, board.current_player, no))
-                end
+        board.each_cell do |row, col|
+            if board.board_state[row][col].nil?
+                new_board = board.deep_copy
+                new_board.make_move(row, col)
+                nr, nc, np, no = self.get_move(new_board, logic)
+                # Collect array of all possible moves
+                moves.push(Move.new(row, col, board.current_player, no))
             end
         end
         move_sort(moves, board.current_player == @sym)

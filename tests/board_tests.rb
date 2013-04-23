@@ -60,4 +60,13 @@ class BoardTests < Test::Unit::TestCase
         assert_not_equal(b1.object_id, b2.object_id)
         assert_not_equal(b1.board_state.object_id, b2.board_state.object_id)
     end
+    def test_each_cell
+        b = Board.new
+        calls = 0
+        b.each_cell do |row, col|
+            assert_equal(calls / 3, row)
+            assert_equal(calls % 3, col)
+            calls += 1
+        end
+    end
 end

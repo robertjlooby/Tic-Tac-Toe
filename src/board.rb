@@ -27,4 +27,11 @@ class Board
     def deep_copy
         Board.new(Array.new(3){|row| Array.new(@board_state[row])}, @current_player)
     end
+    def each_cell
+        (0..2).each do |row|
+            (0..2).each do |col|
+                yield(row, col)
+            end
+        end
+    end
 end
